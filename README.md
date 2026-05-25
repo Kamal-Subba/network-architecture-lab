@@ -11,7 +11,7 @@ This environment is treated as a continuously evolving operational lab rather th
 The repository is used to document:
 - Infrastructure architecture [Over View](architecture/README.md)
 - Security design decisions
-- Detection engineering
+- Detection engineering [SIEM Deployment](detection/wazuh-deployment.md)
 - Segmentation strategy
 - Monitoring workflows
 - Operational troubleshooting
