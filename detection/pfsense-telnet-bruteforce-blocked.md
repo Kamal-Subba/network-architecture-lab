@@ -2,9 +2,15 @@
 
 > **TL;DR:** Repeated inbound TCP/23 (Telnet) connection attempts from an external source were blocked by pfSense at the WAN interface. Wazuh correlated multiple firewall block events from the same source and generated a MITRE ATT&CK-mapped alert. No internal system was reached. Pipeline validated end-to-end.
 
-**Tags:** `pfSense` `Wazuh` `Telnet` `T1110` `Firewall` `Home SOC Lab` `Detection Engineering`
+**Tags:** `pfSense` `Wazuh` `Telnet` `T1110` `Firewall` `Home Lab` `Detection Engineering`
 
 ---
+
+## Objective
+
+The objective of this detection was to validate that the pfSense-to-Wazuh telemetry pipeline was working end-to-end and that I could trace a firewall alert from raw log generation through SIEM ingestion, decoding, correlation, and analyst review.
+
+This was not treated as a confirmed compromise. The goal was to confirm that the lab could detect and surface blocked inbound activity, then use the available fields to understand what happened, why the alert fired, and whether any internal system was impacted.
 
 ## Overview
 
@@ -29,7 +35,6 @@ This detection validates the end-to-end telemetry path from firewall log generat
 | Protocol | TCP |
 | Destination Port | 23 (Telnet) |
 | Alert Type | Multiple firewall blocks from same source |
-| Wazuh Rule ID | `<redacted>` |
 | Rule Level | High severity |
 | MITRE ATT&CK Technique | T1110 — Brute Force |
 | MITRE ATT&CK Tactic | Credential Access |
@@ -68,14 +73,14 @@ Wazuh generated an alert after correlating multiple blocked inbound firewall eve
 
 ```
 rule.description : Multiple pfSense firewall block events from same source
-rule.id          : <redacted>
-rule.level       : <redacted>
+rule.id          : 87702 
+rule.level       : 10
 rule.groups      : pfsense, multiple_blocks
 rule.mitre.id    : T1110
 rule.mitre.tactic: Credential Access
 rule.mitre.technique: Brute Force
 decoder.name     : pf
-location         : <redacted>
+
 ```
 
 ---
@@ -89,13 +94,8 @@ Key fields extracted by the Wazuh `pf` decoder:
 | `data.action` | `block` | pfSense blocked the connection |
 | `data.protocol` | `tcp` | TCP connection attempt |
 | `data.dstport` | `23` | Destination port — Telnet |
-| `data.srcip` | `<redacted>` | External host initiating the connection |
-| `data.dstip` | `<redacted>` | Public WAN interface IP |
-| `data.srcport` | `<redacted>` | Randomized source port (typical of scanners) |
 | `decoder.name` | `pf` | Wazuh pfSense firewall decoder |
 | `predecoder.program_name` | `filterlog` | pfSense kernel filter log process |
-| `location` | `<redacted>` | File monitored by Wazuh logcollector |
-| `agent.id` | `<redacted>` | Wazuh collection agent identifier |
 
 ---
 
@@ -274,9 +274,9 @@ The most probable explanation is **automated internet background scanning** targ
 
 ## Operational Takeaway
 
-This detection validated the Home SOC Lab telemetry pipeline from pfSense to Wazuh. The event demonstrated that the lab can:
+This detection validated the Home Lab telemetry pipeline from pfSense to Wazuh. The event demonstrated that the lab can:
 
-- Collect real firewall telemetry from a production-grade perimeter device
+- Collect real firewall telemetry from a dedicated perimeter firewall
 - Ingest and parse pfSense `filterlog` events into a dedicated SIEM
 - Decode structured firewall fields using the Wazuh `pf` decoder
 - Correlate repeated blocked activity into a single actionable alert
@@ -290,3 +290,5 @@ This detection validated the Home SOC Lab telemetry pipeline from pfSense to Waz
 ## Screenshots
 
 ![Wazuh log](../screenshots/LogSummary.png)
+*(The screenshot shows Wazuh decoding pfSense firewall telemetry from the monitored pfSense log source. The decoded fields confirm the firewall action was `block`, the destination port was TCP/23, the event was parsed using the `pf` decoder, and the alert was mapped to MITRE ATT&CK `T1110 - Brute Force`.)*
+> Note: Screenshot evidence has been sanitized to remove public IP addresses, hostnames, internal identifiers, and environment-specific values.
