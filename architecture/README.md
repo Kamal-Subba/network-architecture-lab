@@ -1,9 +1,8 @@
 # Network Security Architecture
  
 ## Overview
- 
-This document describes the logical and security architecture of a segmented network environment designed to support secure connectivity, traffic isolation, and centralized security monitoring.
- 
+
+This doc will go over the logical and security archecture of a segmented network env designe to support secure connection, traffic isolation and centeralized security monitoring.  
 The design follows a firewall-centric enforcement model with explicit trust zone separation and controlled inter-zone communication. It is intended to simulate enterprise network segmentation patterns used in security operations environments, including defensive monitoring and controlled adversary simulation zones.
  
 ---
@@ -42,8 +41,8 @@ The design follows a firewall-centric enforcement model with explicit trust zone
            +--------------+        +------------------+
            |              |        |                  |
     +------+------+    +--+--------+----+
-    |  BLUE NET   |    |    RED NET     |
-    |  VLAN #     |    |   (planned)    |
+    |  B NET      |    |    T Gone      |
+    |  VLAN #     |    |    VLAN #	|
     |             |    |                |
     | - Wazuh     |    | - Kali Linux   |
     |   SIEM      |    | - Attack sim   |
@@ -67,7 +66,7 @@ The design follows a firewall-centric enforcement model with explicit trust zone
 | **pfSense (Edge Firewall)** | Central routing and policy enforcement. Handles NAT, inter-VLAN routing, and stateful firewall rules. Default-deny posture between all zones. |
 | **Managed Layer 2 Switch (802.1Q)** | VLAN segmentation and trunk distribution. Connects firewall, access points, and endpoints. Enforces logical separation at Layer 2. |
 | **TP-Link Omada Wireless APs** | Wireless connectivity mapped to VLAN-backed SSIDs. Supports internal and guest wireless segmentation. |
-| **Ubuntu Server (Intel NUC)** | Dedicated Wazuh SIEM host. Isolated on BLUE NET for analytical monitoring. |
+| **Ubuntu Server (Intel NUC)** | Dedicated Wazuh SIEM host. Isolated on B NET for analytical monitoring. |
  
 ---
  
@@ -166,26 +165,5 @@ This ensures analytical visibility across all zones without requiring inbound fi
 - **Least privilege access** — Management access is restricted to MGMT NET only
 ---
  
-## Planned Enhancements
  
-| Enhancement | Purpose | Status |
-|-------------|---------|--------|
-| Suricata IDS/IPS | Network-level intrusion detection via pfSense integration | Planned |
-| Traffic mirroring | Packet-level inspection for deeper network visibility | Planned |
-| MITRE ATT&CK mapping | Map detection rules to adversary behavior framework | Planned |
-| Advanced correlation rules | Multi-source event correlation within Wazuh | Planned |
-| Vulnerability scanning | Continuous exposure assessment across monitored segments | Planned |
-| RED / BLUE lab segments | Full adversary simulation and detection validation environment | In Progress |
- 
----
- 
-## Running Environment
- 
-Screenshots documenting live pfSense firewall rules, VLAN interface definitions, and dashboard state are maintained in [`/architecture/running-env/`](running-env/) and updated as the environment evolves.
- 
----
- 
-## Summary
- 
-This architecture provides a segmented, policy-driven network environment supporting security monitoring, controlled adversary simulation, and defensive analysis. The push-based telemetry model ensures analytical visibility without lateral exposure, and the detection pipeline is aligned with SOC operational workflows. The design reflects enterprise security segmentation patterns common in modern SOC and security engineering environments.
  
