@@ -7,7 +7,7 @@ The design follows a firewall-centric enforcement model with explicit trust zone
  
 ---
  
-## Topology Diagram
+## Logical Lab Overview
  
 ```
                           [ INTERNET ]
@@ -41,7 +41,7 @@ The design follows a firewall-centric enforcement model with explicit trust zone
            +--------------+        +------------------+
            |              |        |                  |
     +------+------+    +--+--------+----+
-    |  B NET      |    |    T Gone      |
+    |  Blue NET   |    |    Red Net     |
     |  VLAN #     |    |    VLAN #	|
     |             |    |                |
     | - Wazuh     |    | - Kali Linux   |
@@ -104,6 +104,7 @@ All inter-zone traffic is denied by default. Permitted flows are explicitly defi
 - All inter-VLAN routing is handled exclusively by pfSense
 - No direct Layer 2 communication exists between VLANs
 - All cross-zone traffic is validated at the firewall layer before forwarding
+
 ---
  
 ## BLUE NET Telemetry Model
