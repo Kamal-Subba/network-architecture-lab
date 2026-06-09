@@ -97,8 +97,8 @@ One of my goals for this repository is documenting not only successful deploymen
 
 Documented incidents:
 
-- [VLAN Guest Network Outage — Incident Report & Recovery](architecture/incidents/vlan-guest-network-outage.md)
-- [AP Adoption Failure — Troubleshooting & Recovery](wireless/incidents/omada-ap-adoption-troubleshooting.md)
+- [VLAN Guest Network Outage — Incident Report & Recovery](incidents/vlan-misconfig-network-outage.md)
+- [AP Adoption Failure — Troubleshooting & Recovery](incidents/omada-ap-adoption-troubleshooting.md)
 
 The objective is to treat failures as operational learning opportunities and document root-cause analysis.
 

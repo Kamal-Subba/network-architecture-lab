@@ -289,6 +289,6 @@ This detection validated the Home Lab telemetry pipeline from pfSense to Wazuh. 
 
 ## Screenshots
 
-![Wazuh log](../screenshots/LogSummary.png)
+![Wazuh log](assets/LogSummary.png)
 *(The screenshot shows Wazuh decoding pfSense firewall telemetry from the monitored pfSense log source. The decoded fields confirm the firewall action was `block`, the destination port was TCP/23, the event was parsed using the `pf` decoder, and the alert was mapped to MITRE ATT&CK `T1110 - Brute Force`.)*
 > Note: Screenshot evidence has been sanitized to remove public IP addresses, hostnames, internal identifiers, and environment-specific values.
