@@ -1,4 +1,4 @@
-d# Incident: VLAN Guest Network Misconfiguration — Switch Connectivity Outage
+# Incident: VLAN Guest Network Misconfiguration — Switch Connectivity Outage
 
 **Environment:** Home Lab | pfSense Firewall | Managed Switch | Controller-Managed Wireless Infrastructure
 
